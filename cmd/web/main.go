@@ -37,6 +37,7 @@ type application struct {
 func (app *application) serve() error {
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", app.config.port),
+		Handler:           app.routes(),
 		IdleTimeout:       30 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		ReadHeaderTimeout: 5 * time.Second,
@@ -78,11 +79,16 @@ func main() {
 
 	tc := make(map[string]*template.Template)
 
-	application := &application{
+	app := &application{
 		config:        cfg,
 		infoLog:       infoLog,
 		errorLog:      errorLog,
 		templateCache: tc,
 		version:       version,
+	}
+
+	err := app.serve()
+	if err != nil {
+		app.errorLog.Fatalln(err)
 	}
 }
