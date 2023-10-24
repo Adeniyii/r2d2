@@ -13,6 +13,12 @@ import (
 const version = "1.0.0"
 const cssVersion = "1" // Incrementing will force browers invalidate their cache of static files
 
+// env constants
+const (
+	STRIPE_KEY    = "STRIPE_KEY"
+	STRIPE_SECRET = "STRIPE_SECRET"
+)
+
 type config struct {
 	port int
 	env  string
@@ -47,11 +53,6 @@ func (app *application) serve() error {
 
 	return srv.ListenAndServe()
 }
-
-const (
-	STRIPE_KEY    = "STRIPE_KEY"
-	STRIPE_SECRET = "STRIPE_SECRET"
-)
 
 func main() {
 	var cfg config
