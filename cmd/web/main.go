@@ -36,7 +36,7 @@ type application struct {
 	config        config
 	infoLog       *log.Logger
 	errorLog      *log.Logger
-	templateCache map[string]*template.Template
+	tmplCache map[string]*template.Template
 	version       string
 }
 
@@ -84,7 +84,7 @@ func main() {
 		config:        cfg,
 		infoLog:       infoLog,
 		errorLog:      errorLog,
-		templateCache: tc,
+		tmplCache: tc,
 		version:       version,
 	}
 
