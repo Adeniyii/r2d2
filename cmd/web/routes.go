@@ -9,7 +9,8 @@ import (
 func (app *application) routes() http.Handler {
 	r := chi.NewRouter()
 	r.Get("/vt", app.virtualTerminal)
-	r.Get("/public/", app.public)
-	// r.Handle("/public", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+
+	fileServer := http.FileServer(http.Dir("./static"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 	return r
 }
