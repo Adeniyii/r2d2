@@ -33,11 +33,11 @@ type config struct {
 }
 
 type application struct {
-	config        config
-	infoLog       *log.Logger
-	errorLog      *log.Logger
+	config    config
+	infoLog   *log.Logger
+	errorLog  *log.Logger
 	tmplCache map[string]*template.Template
-	version       string
+	version   string
 }
 
 func (app *application) serve() error {
@@ -81,11 +81,11 @@ func main() {
 	tc := make(map[string]*template.Template)
 
 	app := &application{
-		config:        cfg,
-		infoLog:       infoLog,
-		errorLog:      errorLog,
+		config:    cfg,
+		infoLog:   infoLog,
+		errorLog:  errorLog,
 		tmplCache: tc,
-		version:       version,
+		version:   version,
 	}
 
 	err := app.serve()

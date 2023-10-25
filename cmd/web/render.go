@@ -74,9 +74,9 @@ func (app *application) buildTmpl(tmplName string, tmplPath string, partials []s
 	}
 
 	if len(partials) > 0 {
-		tmpl, err = template.New(fmt.Sprintf(tmplPath)).Funcs(funcs).ParseFS(templateFS, "templates/base.layout.tmpl", strings.Join(partials, ","), tmplPath)
+		tmpl, err = template.New(fmt.Sprintf("%s.page.tmpl", tmplName)).Funcs(funcs).ParseFS(templateFS, "templates/base.layout.tmpl", strings.Join(partials, ","), tmplPath)
 	} else {
-		tmpl, err = template.New(fmt.Sprintf(tmplPath)).Funcs(funcs).ParseFS(templateFS, "templates/base.layout.tmpl", tmplPath)
+		tmpl, err = template.New(fmt.Sprintf("%s.page.tmpl", tmplName)).Funcs(funcs).ParseFS(templateFS, "templates/base.layout.tmpl", tmplPath)
 	}
 
 	if err != nil {
