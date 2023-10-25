@@ -3,10 +3,10 @@
 all: buildcss
 
 buildcss: tailwindcss
-	./tw -i ./tailwind.css -o ./public/styles/app.css --minify
+	./tw -i ./tailwind.css -o ./static/styles/app.css --minify
 
 watchcss:
-	./tw -i ./tailwind.css -o ./public/styles/app.css --watch
+	./tw -i ./tailwind.css -o ./static/styles/app.css --watch
 
 tailwindcss:
 	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/tailwindcss-linux-x64
@@ -14,4 +14,4 @@ tailwindcss:
 	mv tailwindcss-linux-x64 tw
 
 clean:
-	rm -rf tw public/
+	rm -rf tw static/
