@@ -23,7 +23,7 @@ tmp_dir = "tmp"
   full_bin = "STRIPE_SECRET= STRIPE_KEY= ./tmp/main"
   include_dir = []
   # Watch these filename extensions.
-  include_ext = ["go", "tpl", "tmpl", "html"]
+  include_ext = ["go", "tpl", "tmpl", "html", "css"]
   include_file = []
   kill_delay = "0s"
   log = "air.log"
