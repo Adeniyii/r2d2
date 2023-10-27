@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"strings"
 )
@@ -20,6 +23,18 @@ type templData struct {
 	isAuthed   bool
 	api        string
 	cssVersion string
+}
+
+// ErrorResponseMessage represents the structure of the error
+// object sent in failed responses.
+type ErrorResponseMessage struct {
+	Message string `json:"message"`
+}
+
+// ErrorResponse represents the structure of the error object sent
+// in failed responses.
+type ErrorResponse struct {
+	Error *ErrorResponseMessage `json:"error"`
 }
 
 var funcs = template.FuncMap{}
@@ -86,4 +101,32 @@ func (app *application) buildTmpl(tmplName string, tmplPath string, partials []s
 
 	app.tmplCache[tmplPath] = tmpl
 	return tmpl, nil
+}
+
+func (app *application) writeJSON(w http.ResponseWriter, v interface{}) error {
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(v); err != nil {
+		app.errorLog.Println(err)
+		return err
+	}
+	w.Header().Set("Content-Type", "application/json")
+	if _, err := io.Copy(w, &buf); err != nil {
+		app.errorLog.Println(err)
+		return err
+	}
+	return nil
+}
+
+func (app *application) writeJSONError(w http.ResponseWriter, v interface{}, code int) {
+	w.WriteHeader(code)
+	app.writeJSON(w, v)
+}
+
+func (app *application) writeJSONErrorMessage(w http.ResponseWriter, message string, code int) {
+	resp := &ErrorResponse{
+		Error: &ErrorResponseMessage{
+			Message: message,
+		},
+	}
+	app.writeJSONError(w, resp, code)
 }

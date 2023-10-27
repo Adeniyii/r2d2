@@ -8,6 +8,9 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
+	"github.com/stripe/stripe-go/v76"
 )
 
 const version = "1.0.0"
@@ -63,17 +66,13 @@ func main() {
 
 	flag.Parse()
 
-	if sk, ok := os.LookupEnv(STRIPE_KEY); !ok {
-		log.Fatalf("missing env: %s\n", STRIPE_KEY)
-	} else {
-		cfg.stripe.key = sk
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
 	}
 
-	if ss, ok := os.LookupEnv(STRIPE_SECRET); !ok {
-		log.Fatalf("missing env: %s\n", STRIPE_SECRET)
-	} else {
-		cfg.stripe.secret = ss
-	}
+	cfg.stripe.key = os.Getenv(STRIPE_KEY)
+	cfg.stripe.secret = os.Getenv(STRIPE_SECRET)
+	stripe.Key = os.Getenv(STRIPE_SECRET)
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
