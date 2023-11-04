@@ -1,9 +1,9 @@
 // Helper for displaying status messages.
 export const addMessage = (message) => {
-  const messagesDiv = document.querySelector('#messages');
-  messagesDiv.style.display = 'block';
+  const messagesDiv = document.querySelector('#card-messages');
+  messagesDiv.classList.remove("hidden")
   const messageWithLinks = addDashboardLinks(message);
-  messagesDiv.innerHTML += `> ${messageWithLinks}<br>`;
+  messagesDiv.innerHTML += `${messageWithLinks}<br>`;
   console.log(`Debug: ${message}`);
 };
 
